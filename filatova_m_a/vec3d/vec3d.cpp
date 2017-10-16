@@ -12,7 +12,7 @@ bool Vec3d::Vec3d& operator ==(const Vec3d& rhs) {return (abs(x - rhs.x)) < E &&
 bool Vec3d::Vec3d& operator !=(const Vec3d& rhs) { return !operator==(rhs); }
 
 
-Vec3d& Vec3d::Vec3d& operator +=(const Vec3d& rhs) 
+Vec3d& Vec3d::operator +=(const Vec3d& rhs) 
 {
     x += rhs.x;
     y += rhs.y;
