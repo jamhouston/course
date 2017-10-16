@@ -112,7 +112,7 @@ std::ostream& Vec3d::writeTo(std::ostream& ostrm) const
 }
 
 
-std::istream& Complex::readFrom(std::istream& istrm)
+std::istream& Vec3d::readFrom(std::istream& istrm)
 {
 	char leftBrace_i(0);
 	double x_i(0.0);
