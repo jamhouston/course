@@ -4,3 +4,4 @@ project( filatova_m_a )
 
 add_subdirectory( complex )
 add_subdirectory( vec3d )
+add_subdirectory( vec3dt )
