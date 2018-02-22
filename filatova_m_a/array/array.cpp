@@ -1,100 +1,93 @@
 #include "array.h"
-
-#include "iostream"
-
-
-Array::Array(const int item)
-{
-	pdata_ = new int[item];
-	size_ = item;
-	capacity_ = item;
-	for(int i = 0; i < item; ++i)
-	{
-		*(pdata_ + i) = 0;
-	}
-}
-
-
-void Array::add()
-{
-	if (size_ < capacity_) ++size_;
-	else
-	{
-		capacity_ *= 2;
-		int* newpdata_ = new int[capacity_];
-		for (int i = 0; i < size_; ++i)
-		{
-			*(newpdata_ + i) = *(pdata_ + i);
-		}
-		pdata_ = newpdata_;
-		++size_;
-	}
-}
-
-
-int Array::size() const 
-{ 
-	return size_;#include "array.h"
-
-#include "iostream"
+#undef main
+#include <iostream>
+#include <stdexcept>
 
 
 Array::Array(const int item)
 {
 	pdata_ = new int[item];
-	size_ = item;
 	capacity_ = item;
-	for(int i = 0; i < item; ++i)
+	size_ = item;
+	for (int i = 0; i < item; ++i)
 	{
 		*(pdata_ + i) = 0;
 	}
 }
 
-
-void Array::add()
-{
-	if (size_ < capacity_) ++size_;
-	else
-	{
-		capacity_ *= 2;
-		int* newpdata_ = new int[capacity_];
-		for (int i = 0; i < size_; ++i)
-		{
-			*(newpdata_ + i) = *(pdata_ + i);
+void Array::Add() {
+	if (size_ < capacity_) {
+		size_++;
+	}
+	else {
+		int* new_pdata = new int[capacity_ * 2];
+		for (int i = 0; i < size_; i++) {
+			*(new_pdata + i) = *(pdata_ + i);
 		}
-		pdata_ = newpdata_;
-		++size_;
+		std::swap(new_pdata, pdata_);
+		size_++;
+		capacity_ *= 2;
 	}
 }
 
 
-int Array::size() const 
-{ 
+Array& Array::operator=(const Array& rhs)
+{
+	pdata_ = new int[rhs.Size()];
+	for (int i = 0; i < rhs.Size(); ++i)
+	{
+		*(pdata_ + i) = rhs[i];
+	}
+	size_ = rhs.Size();
+	capacity_ = rhs.Size();
+	return *this;
+}
+
+
+
+const int& Array::operator[](const ptrdiff_t index) const
+{
+	if (index >= 0 && index < size_)
+	{
+		return pdata_[index];
+	}
+	else
+	{
+		throw std::out_of_range("Index is out of range.");
+	}
+}
+
+
+
+int Array::Size() const
+{
 	return size_;
 }
 
 
-int& Array::operator[] (const ptrdiff_t item)
+void Array::Push_back(const int item)
 {
-	if (item > 0 && item < size)
+	Add();
+	*(pdata_ - 1 + size_) = item;
+}
+
+
+void Array::Insert(int pos, int item)
+{
+	if (pos >= 0 && pos < size_)
 	{
-		return pdata_[i];
+		Push_back(item);
+		for (int i = size_ - 1; i > pos; --i)
+		{
+			int temp{ 0 };
+			temp = pdata_[i];
+			pdata_[i] = pdata_[i - 1];
+			pdata_[i - 1] = temp;
+		}
+	}
+	else
+	{
+		throw std::out_of_range("Index is out of range.");
 	}
 }
-
-
-
-
-}
-
-
-int& Array::operator[] (const ptrdiff_t item)
-{
-	if (item > 0 && item < size)
-	{
-		return pdata_[i];
-	}
-}
-
-
 
